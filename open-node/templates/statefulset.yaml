@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "openNodeChart.workloadName" . }}
+  labels:
+    app: {{ include "openNodeChart.workloadName" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ include "openNodeChart.workloadName" . }}
+  serviceName: {{ include "openNodeChart.workloadName" . }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: {{ include "openNodeChart.workloadName" . }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      - name: {{ include "openNodeChart.workloadName" . }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.command }}
+        command: {{ . }}
+        {{- end }}
+        args:
+        - -d={{ .Values.dataPath }}
+        {{- range .Values.args.para }}
+        - {{ . }}
+        {{- end }}
+        - --
+        {{- range .Values.args.relay }}
+        - {{ . }}
+        {{- end }}
+        ports:
+        - containerPort: {{ .Values.port.p2p.para }}
+          name: para-p2p
+        - containerPort: {{ .Values.port.p2p.relay }}
+          name: relay-p2p
+        {{- if eq .Values.nodeType "rpc" }}
+        - containerPort: {{ .Values.port.rpc.http }}
+          name: http-rpc
+        - containerPort: {{ .Values.port.rpc.ws }}
+          name: websocket-rpc
+        {{- end }}
+        {{- with .Values.readinessProbe }}
+        readinessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.livenessProbe }}
+        livenessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - name: data
+          mountPath: {{ .Values.dataPath }}
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      {{- with .Values.dataVolume.storageClassName }}
+      storageClassName: {{ . }}
+      {{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.dataVolume.initialSize }}

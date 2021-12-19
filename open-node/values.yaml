@@ -1,0 +1,48 @@
+# nodeType is the type of this open node instance, should be one of full, rpc, bootstrap, collator
+nodeType: ""
+
+replicaCount: 1
+
+image:
+  repository: phalanetwork/khala-dev-node
+  pullPolicy: IfNotPresent
+  tag: latest
+
+command: ""
+args:
+  para: []
+  relay: []
+
+dataPath: /data
+
+dataVolume:
+  storageClassName: ""
+  initialSize: 20Gi
+
+port:
+  p2p:
+    para: 30333
+    relay: 30334
+  rpc:
+    http: 9933
+    ws: 9944
+
+readinessProbe: {}
+
+livenessProbe: {}
+
+podAnnotations: {}
+
+imagePullSecrets: []
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
