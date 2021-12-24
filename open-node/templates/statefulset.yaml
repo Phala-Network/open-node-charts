@@ -4,7 +4,7 @@ metadata:
   name: {{ include "openNodeChart.workloadName" . }}
   annotations:
     service-per-pod-label: pod-name
-    service-per-pod-ports: "30333:30333,30334:30334"
+    service-per-pod-ports: "{{ .Values.port.p2p.para }}:{{ .Values.port.p2p.para }},{{ .Values.port.p2p.relay }}:{{ .Values.port.p2p.relay }}"
   labels:
     app: {{ include "openNodeChart.workloadName" . }}
 spec:
