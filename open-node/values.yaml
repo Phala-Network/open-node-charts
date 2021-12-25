@@ -1,17 +1,29 @@
 # nodeType is the type of this open node instance, should be one of full, rpc, bootstrap, collator
-nodeType: ""
+nodeType: full
 
 replicaCount: 1
 
 image:
   repository: phalanetwork/khala-dev-node
   pullPolicy: IfNotPresent
-  tag: latest
+  tag: latest-healthcheck
 
-command: ""
+command: 
+- /root/khala-node
+
 args:
-  para: []
-  relay: []
+  para:
+  - --chain=/root/thala-local-2004-raw.chain_spec.json
+  - --pruning=archive
+  - --state-cache-size=671088640
+  - --db-cache=2048
+  - --max-runtime-instances=16
+  relay:
+  - --chain=/root/rococo-local-raw.chain_spec.json
+  - --pruning=256
+  - --state-cache-size=671088640
+  - --db-cache=2048
+  - --max-runtime-instances=16
 
 dataPath: /data
 
@@ -27,9 +39,36 @@ port:
     http: 9933
     ws: 9944
 
-readinessProbe: {}
+livenessProbe:
+  failureThreshold: 3
+  exec:
+    command:
+    - curl
+    - -f
+    - -H
+    - "Content-Type: application/json"
+    - -d
+    - '{"id":1, "jsonrpc":"2.0", "method": "system_health"}'
+    - http://localhost:9933/
+  initialDelaySeconds: 10
+  periodSeconds: 10
 
-livenessProbe: {}
+readinessProbe:
+  failureThreshold: 3
+  exec:
+    command:
+    - sh
+    - /root/health.sh
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+resources:
+  requests:
+    cpu: "2"
+    memory: "2Gi"
+  limits:
+    cpu: "2"
+    memory: "2Gi"
 
 podAnnotations: {}
 
@@ -38,8 +77,6 @@ imagePullSecrets: []
 podSecurityContext: {}
 
 securityContext: {}
-
-resources: {}
 
 nodeSelector: {}
 

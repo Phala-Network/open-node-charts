@@ -34,7 +34,8 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.command }}
-        command: {{ . }}
+        command:
+        {{- toYaml . | nindent 8 }}
         {{- end }}
         args:
         - -d={{ .Values.dataPath }}
@@ -56,12 +57,12 @@ spec:
         - containerPort: {{ .Values.port.rpc.ws }}
           name: websocket-rpc
         {{- end }}
-        {{- with .Values.readinessProbe }}
-        readinessProbe:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
         {{- with .Values.livenessProbe }}
         livenessProbe:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.readinessProbe }}
+        readinessProbe:
           {{- toYaml . | nindent 10 }}
         {{- end }}
         volumeMounts:
