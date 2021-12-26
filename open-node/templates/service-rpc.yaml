@@ -1,0 +1,16 @@
+{{- if eq .Values.nodeType "rpc" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "openNodeChart.workloadName" . }}-rpc
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  ports:
+  - name: http-rpc
+    port: {{ .Values.port.rpc.http }}
+  - name: websocket-rpc
+    port: {{ .Values.port.rpc.ws }}
+  selector:
+    app: {{ include "openNodeChart.workloadName" . }}
+{{- end }}

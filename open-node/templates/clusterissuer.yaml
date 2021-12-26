@@ -1,0 +1,28 @@
+{{ if .Values.ingress.createCertIssuer -}}
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    server: {{ .Values.ingress.letsencrypt.serverURL }}
+    email: {{ .Values.ingress.letsencrypt.email }}
+
+    privateKeySecretRef:
+      name: letsencrypt
+
+    solvers:
+    - dns01:
+        cloudflare:
+          email: {{ .Values.ingress.cloudflareEmail }}
+          apiKeySecretRef:
+            name: cloudflare-credentials
+            key: api-key
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-credentials
+data:
+  api-key: {{ .Values.ingress.cloudflareSecret.apiKey | b64enc }}
+{{ end }}

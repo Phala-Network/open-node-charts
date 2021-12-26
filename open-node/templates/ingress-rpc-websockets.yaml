@@ -1,0 +1,28 @@
+{{ if eq .Values.nodeType "rpc" -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "openNodeChart.workloadName" . }}-websockets
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/limit-rps: "10"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+      - {{ .Values.ingress.ws.domain }}
+    secretName: {{ .Values.ingress.ws.domain }}-tls
+  rules:
+  - host: {{ .Values.ingress.ws.domain }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "openNodeChart.workloadName" . }}-rpc
+            port:
+              number: {{ .Values.port.rpc.ws }}
+{{ end }}
