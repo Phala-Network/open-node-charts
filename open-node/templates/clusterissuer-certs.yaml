@@ -7,10 +7,8 @@ spec:
   acme:
     server: {{ .Values.ingress.letsencrypt.serverURL }}
     email: {{ .Values.ingress.letsencrypt.email }}
-
     privateKeySecretRef:
       name: letsencrypt
-
     solvers:
     - dns01:
         cloudflare:
@@ -23,6 +21,22 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: cloudflare-credentials
+  # Namespace where cert-manager runs in.
+  namespace: "{{ .Values.cert-manager.namespace }}"
 data:
   api-key: {{ .Values.ingress.cloudflareSecret.apiKey | b64enc }}
+type: Opaque
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ .Values.ingress.ws.domain }}-tls
+  namespace: 
+spec:
+  dnsNames:
+  - {{ .Values.ingress.ws.domain }}
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt
+  secretName: {{ .Values.ingress.ws.domain }}-tls
 {{ end }}
