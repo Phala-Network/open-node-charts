@@ -40,14 +40,17 @@ port:
     ws: 9944
 
 ingress:
-  createCertIssuer: true
+  certmanager:
+    createCertIssuer: true
+    # Namespace where cert-manager runs in.
+    namespace: "cert-manager"
   letsencrypt:
     # ACME v2 production endpoint of Let's Encrypt.
     serverURL: "https://acme-v02.api.letsencrypt.org/directory"
     # The e-mail address for receiving overdue-cert notification from Let's Encrypt.
     email: "opennode-dev@phala.network"
-  cloudflareEmail: "opennode-dev@phala.network"
-  cloudlareSecret:
+  cloudflare:
+    email: "opennode-dev@phala.network"
     # The api-key for accessing cloud flare api.
     apiKey: "open-node-api-key"
   http:
@@ -55,10 +58,6 @@ ingress:
   ws:
     # The domain name of websocket RPC ingress forwarding rule.
     domain: ""
-
-cert-manager:
-  # Namespace where cert-manager runs in.
-  namespace: "cert-manager"
 
 livenessProbe:
   failureThreshold: 3

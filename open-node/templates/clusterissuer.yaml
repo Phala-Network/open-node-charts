@@ -1,4 +1,4 @@
-{{ if .Values.ingress.createCertIssuer -}}
+{{ if .Values.ingress.certmanager.createCertIssuer -}}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -12,7 +12,7 @@ spec:
     solvers:
     - dns01:
         cloudflare:
-          email: {{ .Values.ingress.cloudflareEmail }}
+          email: {{ .Values.ingress.cloudflare.email }}
           apiKeySecretRef:
             name: cloudflare-credentials
             key: api-key
@@ -22,21 +22,8 @@ kind: Secret
 metadata:
   name: cloudflare-credentials
   # Namespace where cert-manager runs in.
-  namespace: "{{ .Values.cert-manager.namespace }}"
+  namespace: {{ .Values.ingress.certmanager.namespace }}
 data:
-  api-key: {{ .Values.ingress.cloudflareSecret.apiKey | b64enc }}
+  api-key: {{ .Values.ingress.cloudflare.apiKey | b64enc }}
 type: Opaque
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: {{ .Values.ingress.ws.domain }}-tls
-  namespace: 
-spec:
-  dnsNames:
-  - {{ .Values.ingress.ws.domain }}
-  issuerRef:
-    kind: ClusterIssuer
-    name: letsencrypt
-  secretName: {{ .Values.ingress.ws.domain }}-tls
 {{ end }}
