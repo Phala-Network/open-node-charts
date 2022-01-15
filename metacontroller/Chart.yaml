@@ -1,0 +1,7 @@
+apiVersion: v2
+version: v2.0.19
+appVersion: v2.0.19
+kubeVersion: '^1.8.0-0'
+name: metacontroller
+description: Writing kubernetes controllers can be simple
+type: application
