@@ -2,12 +2,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ .Values.ingress.ws.domain }}-tls
+  name: {{ .Values.ingress.domain }}-tls
 spec:
   dnsNames:
-  - {{ .Values.ingress.ws.domain }}
+  - {{ .Values.ingress.domain }}
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt
-  secretName: {{ .Values.ingress.ws.domain }}-tls
+  secretName: {{ .Values.ingress.domain }}-tls
 {{ end }}

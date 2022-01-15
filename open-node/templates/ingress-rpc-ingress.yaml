@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "openNodeChart.workloadName" . }}-websockets
+  name: {{ include "openNodeChart.workloadName" . }}-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/limit-rps: {{ .Values.ingress.ws.limitRPS }}
@@ -11,17 +11,24 @@ metadata:
 spec:
   tls:
   - hosts:
-      - {{ .Values.ingress.ws.domain }}
-    secretName: {{ .Values.ingress.ws.domain }}-tls
+      - {{ .Values.ingress.domain }}
+    secretName: {{ .Values.ingress.domain }}-tls
   rules:
-  - host: {{ .Values.ingress.ws.domain }}
+  - host: {{ .Values.ingress.domain }}
     http:
       paths:
-      - path: /
+      - path: /public-ws
         pathType: Prefix
         backend:
           service:
             name: {{ include "openNodeChart.workloadName" . }}-rpc
             port:
               number: {{ .Values.port.rpc.ws }}
+      - path: /public-rpc
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "openNodeChart.workloadName" . }}-rpc
+            port:
+              number: {{ .Values.port.rpc.http }}
 {{ end }}
