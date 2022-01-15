@@ -1,0 +1,23 @@
+# Default values for open-node-base-services.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+certmanager:
+  createCertIssuer: true
+  # Namespace where cert-manager runs in.
+  namespace: "cert-manager"
+
+letsencrypt:
+  # ACME v2 production endpoint of Let's Encrypt.
+  serverURL: "https://acme-v02.api.letsencrypt.org/directory"
+  # The e-mail address for receiving overdue-cert notification from Let's Encrypt.
+  email: "opennode-dev@phala.network"
+
+cloudflare:
+  email: "opennode-dev@phala.network"
+  # The api-key for accessing cloud flare api.
+  apiKey: "open-node-api-key"
+
+metacontroller:
+  # Namespace where metacontroller runs in.
+  namespace: "metacontroller"

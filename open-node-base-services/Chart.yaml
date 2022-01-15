@@ -1,0 +1,5 @@
+apiVersion: v2
+name: open-node-base-services
+description: A Helm chart for OpenNode.
+type: application
+version: 0.1.0

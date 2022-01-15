@@ -57,4 +57,4 @@ data:
 kind: ConfigMap
 metadata:
   name: service-per-pod-hooks
-  namespace: metacontroller
+  namespace: {{ .Values.metacontroller.namespace }}
