@@ -8,6 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/limit-rps: {{ .Values.ingress.ws.limitRPS }}
     nginx.ingress.kubernetes.io/proxy-read-timeout: {{ .Values.ingress.ws.proxyReadTimeout }}
     nginx.ingress.kubernetes.io/proxy-send-timeout: {{ .Values.ingress.ws.proxySendTimeout }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   tls:
   - hosts:
@@ -17,14 +18,14 @@ spec:
   - host: {{ .Values.ingress.domain }}
     http:
       paths:
-      - path: /public-ws
+      - path: /public-ws/(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: {{ include "openNodeChart.workloadName" . }}-rpc
             port:
               number: {{ .Values.port.rpc.ws }}
-      - path: /public-rpc
+      - path: /public-rpc/(/|$)(.*)
         pathType: Prefix
         backend:
           service:
