@@ -40,15 +40,14 @@ port:
     ws: 9944
 
 ingress:
+  # The domain name of websocket/http RPC ingress forwarding rule.
+  domain: ""
   http:
-    domain: ""
     # Number of requests accepted from a given IP each second, for rate limiting purpose.
     limitRPS: "10"
     proxyReadTimeout: "3600"
     proxySendTimeout: "3600"
   ws:
-    # The domain name of websocket RPC ingress forwarding rule.
-    domain: ""
     # Number of requests accepted from a given IP each second, for rate limiting purpose.
     limitRPS: "10"
     # Read/Send timeout settings are critical to websocket service. 
