@@ -44,15 +44,15 @@ ingress:
   domain: ""
   http:
     # Number of requests accepted from a given IP each second, for rate limiting purpose.
-    limitRPS: "10"
-    proxyReadTimeout: "3600"
-    proxySendTimeout: "3600"
+    limitRPS: 10
+    proxyReadTimeout: 3600
+    proxySendTimeout: 3600
   ws:
     # Number of requests accepted from a given IP each second, for rate limiting purpose.
-    limitRPS: "10"
+    limitRPS: 10
     # Read/Send timeout settings are critical to websocket service. 
-    proxyReadTimeout: "3600"
-    proxySendTimeout: "3600"
+    proxyReadTimeout: 3600
+    proxySendTimeout: 3600
 
 livenessProbe:
   failureThreshold: 3
