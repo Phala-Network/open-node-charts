@@ -54,36 +54,11 @@ ingress:
     proxyReadTimeout: 3600
     proxySendTimeout: 3600
 
-livenessProbe:
-  failureThreshold: 3
-  exec:
-    command:
-    - curl
-    - -f
-    - -H
-    - "Content-Type: application/json"
-    - -d
-    - '{"id":1, "jsonrpc":"2.0", "method": "system_health"}'
-    - http://localhost:9933/
-  initialDelaySeconds: 10
-  periodSeconds: 10
+livenessProbe: {}
 
-readinessProbe:
-  failureThreshold: 3
-  exec:
-    command:
-    - sh
-    - /root/health.sh
-  initialDelaySeconds: 10
-  periodSeconds: 10
+readinessProbe: {}
 
-resources:
-  requests:
-    cpu: "2"
-    memory: "2Gi"
-  limits:
-    cpu: "2"
-    memory: "2Gi"
+resources: {}
 
 podAnnotations: {}
 
