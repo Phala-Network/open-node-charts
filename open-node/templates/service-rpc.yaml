@@ -5,12 +5,17 @@ metadata:
   name: {{ include "openNodeChart.workloadName" . }}-rpc
   labels:
     app: {{ .Release.Name }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9615"
 spec:
   ports:
   - name: http-rpc
     port: {{ .Values.port.rpc.http }}
   - name: websocket-rpc
     port: {{ .Values.port.rpc.ws }}
+  - name: metrics
+    port: 9615
   selector:
     app: {{ include "openNodeChart.workloadName" . }}
 {{- end }}

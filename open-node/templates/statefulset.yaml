@@ -23,6 +23,7 @@ spec:
       {{- end }}
       labels:
         app: {{ include "openNodeChart.workloadName" . }}
+        monitor: open-node
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -54,6 +55,8 @@ spec:
           name: para-p2p
         - containerPort: {{ .Values.port.p2p.relay }}
           name: relay-p2p
+        - containerPort: 9615
+          name: metrics
         {{- if eq .Values.nodeType "rpc" }}
         - containerPort: {{ .Values.port.rpc.http }}
           name: http-rpc
