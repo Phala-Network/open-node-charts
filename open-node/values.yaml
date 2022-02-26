@@ -8,8 +8,7 @@ image:
   pullPolicy: IfNotPresent
   tag: latest-healthcheck
 
-command: 
-- /root/khala-node
+command: []
 
 args:
   para:
