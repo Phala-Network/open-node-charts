@@ -21,3 +21,6 @@ cloudflare:
 metacontroller:
   # Namespace where metacontroller runs in.
   namespace: "metacontroller"
+
+servicemonitor:
+  namespace: "kube-system"

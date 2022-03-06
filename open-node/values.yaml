@@ -37,6 +37,8 @@ port:
   rpc:
     http: 9933
     ws: 9944
+  metrics:
+    common: 9615
 
 ingress:
   # The domain name of websocket/http RPC ingress forwarding rule.
