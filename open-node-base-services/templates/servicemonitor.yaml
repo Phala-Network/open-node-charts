@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: open-node-servicemonitor
+  namespace: {{ .Values.servicemonitor.namespace }}
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      metrics: "open-node"
+  endpoints:
+  - port: http-metrics
+    path: /metrics
