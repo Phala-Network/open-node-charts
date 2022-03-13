@@ -1,0 +1,35 @@
+apiVersion: v1
+entries:
+  metacontroller:
+  - apiVersion: v2
+    appVersion: v2.0.19
+    created: "2022-03-13T14:06:56.59814988Z"
+    description: Writing kubernetes controllers can be simple
+    digest: f1b742c035e8f23c6fa763be455db2eb6c1a616712e105160665b3d9ed1ed6c6
+    kubeVersion: ^1.8.0-0
+    name: metacontroller
+    type: application
+    urls:
+    - https://github.com/Phala-Network/open-node-charts/releases/download/metacontroller-v2.0.19/metacontroller-v2.0.19.tgz
+    version: v2.0.19
+  open-node:
+  - apiVersion: v2
+    created: "2022-03-13T14:06:56.806181446Z"
+    description: A Helm chart for Open Node.
+    digest: a9b0e274140f0a1f0b55c5e65adb92c0c318aa039b467b45afd32995cc5d093d
+    name: open-node
+    type: application
+    urls:
+    - https://github.com/Phala-Network/open-node-charts/releases/download/open-node-0.1.0/open-node-0.1.0.tgz
+    version: 0.1.0
+  open-node-base-services:
+  - apiVersion: v2
+    created: "2022-03-13T14:06:57.018562213Z"
+    description: A Helm chart for OpenNode.
+    digest: 704871afbf893e00553410341648f2c257ebf4a1ae06419f029ac1506005895d
+    name: open-node-base-services
+    type: application
+    urls:
+    - https://github.com/Phala-Network/open-node-charts/releases/download/open-node-base-services-0.1.0/open-node-base-services-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-03-13T14:06:57.018570113Z"
