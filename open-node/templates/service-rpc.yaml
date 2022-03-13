@@ -4,7 +4,8 @@ kind: Service
 metadata:
   name: {{ include "openNodeChart.workloadName" . }}-rpc
   labels:
-    app: {{ .Release.Name }}
+    app: open-node
+    node-type: {{ .Values.nodeType }}
 spec:
   ports:
   - name: http-rpc
@@ -12,5 +13,6 @@ spec:
   - name: websocket-rpc
     port: {{ .Values.port.rpc.ws }}
   selector:
-    app: {{ include "openNodeChart.workloadName" . }}
+    app: open-node
+    node-type: {{ .Values.nodeType }}
 {{- end }}

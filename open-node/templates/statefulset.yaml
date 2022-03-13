@@ -6,14 +6,16 @@ metadata:
     service-per-pod-label: statefulset.kubernetes.io/pod-name
     service-per-pod-ports: "{{ .Values.port.p2p.para }}:{{ .Values.port.p2p.para }},{{ .Values.port.p2p.relay }}:{{ .Values.port.p2p.relay }}"
   labels:
-    app: {{ include "openNodeChart.workloadName" . }}
+    app: open-node
+    node-type: {{ .Values.nodeType }}
 spec:
   replicas: {{ .Values.replicaCount }}
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: {{ include "openNodeChart.workloadName" . }}
+      app: open-node
+      node-type: {{ .Values.nodeType }}
   serviceName: {{ include "openNodeChart.workloadName" . }}
   template:
     metadata:
@@ -22,7 +24,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ include "openNodeChart.workloadName" . }}
+        app: open-node
+        node-type: {{ .Values.nodeType }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
