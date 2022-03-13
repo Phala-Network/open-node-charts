@@ -1,6 +1,8 @@
 # nodeType is the type of this open node instance, should be one of full, rpc, bootstrap, collator
 nodeType: full
 
+monitoring: true
+
 replicaCount: 1
 partition: 0
 
@@ -39,7 +41,8 @@ port:
     http: 9933
     ws: 9944
   metrics:
-    common: 9615
+    para: 9615
+    relay: 9616
 
 ingress:
   # The domain name of websocket/http RPC ingress forwarding rule.

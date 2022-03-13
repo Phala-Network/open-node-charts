@@ -22,5 +22,8 @@ metacontroller:
   # Namespace where metacontroller runs in.
   namespace: "metacontroller"
 
-servicemonitor:
-  namespace: "kube-system"
+monitoring: true
+
+monitor:
+  namespace: "monitoring"
+  namespaceSelector: {}

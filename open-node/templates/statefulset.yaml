@@ -66,6 +66,12 @@ spec:
         - containerPort: {{ .Values.port.rpc.ws }}
           name: websocket-rpc
         {{- end }}
+        {{ if .Values.monitoring }}
+        - containerPort: {{ .Values.port.metrics.para }}
+          name: para-metrics
+        - containerPort: {{ .Values.port.metrics.relay }}
+          name: relay-metrics
+        {{- end }}
         {{- with .Values.livenessProbe }}
         livenessProbe:
           {{- toYaml . | nindent 10 }}

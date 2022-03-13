@@ -1,0 +1,32 @@
+{{ if .Values.monitoring }}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: open-node
+  namespace: {{ .Values.monitor.namespace }}
+  labels:
+    release: kube-prometheus-stack
+spec:
+  {{- with .Values.monitor.namespaceSelector }}
+  namespaceSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: open-node
+  podMetricsEndpoints:
+  - port: para-metrics
+    path: /metrics
+    relabelings:
+    - action: replace
+      sourceLabels:
+      - __meta_kubernetes_pod_label_node_type
+      targetLabel: node_type
+  - port: relay-metrics
+    path: /metrics
+    relabelings:
+    - action: replace
+      sourceLabels:
+      - __meta_kubernetes_pod_label_node_type
+      targetLabel: node_type
+{{ end }}
