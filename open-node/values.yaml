@@ -2,6 +2,7 @@
 nodeType: full
 
 replicaCount: 1
+partition: 0
 
 image:
   repository: phalanetwork/khala-dev-node

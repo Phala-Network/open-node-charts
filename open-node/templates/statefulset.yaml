@@ -10,8 +10,11 @@ metadata:
     node-type: {{ .Values.nodeType }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
+    rollingUpdate:
+      partition: {{ .Values.partition }}
   selector:
     matchLabels:
       app: open-node
